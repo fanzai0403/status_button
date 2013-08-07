@@ -1,0 +1,12 @@
+<tr><th class="status"><%= l(:field_status) + "-->" %></th><td class="status" colspan=3><%
+allowed_statuses = @issue.new_statuses_allowed_to
+for status in @issue.tracker.issue_statuses
+	if @issue.status == status
+		%><b>[<%= status.name %>]</b>&emsp;<%
+	else
+		%>[<%= link_to_if allowed_statuses.include?(status),
+						status.name, "javascript:make_status(#{status.id})" %>]&emsp;<%
+	end
+end
+%></td></tr>
+<%= javascript_include_tag "status_button.js", :plugin => 'status_button' %>
