@@ -3,8 +3,9 @@
 * Change the issues status by just one click.
 * Change the issues 'assigned to' according to status.
 
+
 you should do these first:
- 1. Create some issue custom fileds whith type 'user'. such as 'designer', 'developer' and 'tester'
- 2. Modify Status Button plugin settings. Choose 'designer', 'developer' or 'tester' for each issue status.
- 3. Fill the 'designer', 'developer' and 'tester' field, when create/edit issues.
+1. Create some issue custom fileds whith type 'user'. such as 'designer', 'developer' and 'tester'
+2. Modify Status Button plugin settings. Choose 'designer', 'developer' or 'tester' for each issue status.
+3. Fill the 'designer', 'developer' and 'tester' field, when create/edit issues.
 
