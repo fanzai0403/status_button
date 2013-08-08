@@ -1,0 +1,10 @@
+= Status Button - Redmine Plugin
+
+* Change the issues status by just one click.
+* Change the issues 'assigned to' according to status.
+
+you should do these first:
+# Create some issue custom fileds whith type 'user'. such as 'designer', 'developer' and 'tester'
+# Modify Status Button plugin settings. Choose 'designer', 'developer' or 'tester' for each issue status.
+# Fill the 'designer', 'developer' and 'tester' field, when create/edit issues.
+
