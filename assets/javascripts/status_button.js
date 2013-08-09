@@ -1,5 +1,5 @@
 function make_status(newStatus) {
-	if (jQuery) {
+	if (typeof(jQuery) != 'undefined') {
 		// redmine uses jQuery so use it.
 		var $ = jQuery;
 		var s = $('#issue_status_id');
@@ -14,6 +14,7 @@ function make_status(newStatus) {
 		f.submit();
 	} else {
 		// redmine uses prototype so use it.
+		var $ = document.getElementById;
 		var s = $('issue_status_id');
 		if (s === null) {
 			return;
