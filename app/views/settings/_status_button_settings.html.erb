@@ -3,6 +3,10 @@
 	@settings = {:status_assigned_to => {}} unless @settings[:status_assigned_to] %>
 <fieldset>
   <legend>Issues Status settings</legend>
+  <p>
+    <label>Check all reachable status</label>
+    <%= check_box_tag 'settings[check_all_status]', true, @settings[:check_all_status] %>
+  </p>
   <table class="list">
     <thead><tr>
     <th><%=l(:field_status)%></th>

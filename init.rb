@@ -11,7 +11,8 @@ Redmine::Plugin.register :status_button do
   author_url 'mailto:zhangfan@4399.net'
   requires_redmine :version_or_higher => '2.0.0'
   settings :default => {
-    :status_assigned_to              => {}
+    :status_assigned_to              => {},
+    :check_all_status                => false
   }, :partial => 'settings/status_button_settings'
 end
 

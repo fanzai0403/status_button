@@ -1,5 +1,29 @@
 <tr><th class="status"><%= l(:field_status) + "-->" %></th><td class="status" colspan=3><%
-allowed_statuses = @issue.new_statuses_allowed_to
+# Returns an array of statuses that user is able to apply
+def all_new_statuses_allowed_to(issue)
+	user = User.current
+	old_statuses = []
+	statuses = [issue.status].compact
+	
+	# check all reachables status for all roles the user owns
+	while (old_statuses != statuses)
+		new_statuses = statuses - old_statuses
+		old_statuses = statuses
+		new_statuses.each do |s|
+			statuses += s.find_new_statuses_allowed_to(
+				user.admin ? Role.all : user.roles_for_project(project),
+				issue.tracker,
+				issue.author == user,
+				user.id == issue.assigned_to_id
+			)
+		end
+		statuses = statuses.compact.uniq.sort
+	end
+	issue.blocked? ? statuses.reject {|s| s.is_closed?} : statuses
+end
+plugin = Redmine::Plugin.find(:status_button)
+setting = Setting["plugin_#{plugin.id}"] || plugin.settings[:default]
+allowed_statuses = setting[:check_all_status] ? all_new_statuses_allowed_to(@issue) : @issue.new_statuses_allowed_to()
 for status in @issue.tracker.issue_statuses
 	if @issue.status == status
 		%><b>[<%= status.name %>]</b>&emsp;<%
