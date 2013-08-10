@@ -11,7 +11,7 @@ def all_new_statuses_allowed_to(issue)
 		old_statuses = statuses
 		new_statuses.each do |s|
 			statuses += s.find_new_statuses_allowed_to(
-				user.admin ? Role.all : user.roles_for_project(project),
+				user.admin ? Role.all : user.roles_for_project(issue.project),
 				issue.tracker,
 				issue.author == user,
 				user.id == issue.assigned_to_id
