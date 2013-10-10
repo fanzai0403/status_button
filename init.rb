@@ -12,7 +12,8 @@ Redmine::Plugin.register :status_button do
   requires_redmine :version_or_higher => '2.0.0'
   settings :default => {
     :status_assigned_to              => {},
-    :check_all_status                => false
+    :check_all_status                => false,
+    :add_watcher                     => true
   }, :partial => 'settings/status_button_settings'
 end
 

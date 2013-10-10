@@ -7,6 +7,10 @@
     <label>Check all reachable status</label>
     <%= check_box_tag 'settings[check_all_status]', true, @settings[:check_all_status] %>
   </p>
+  <p>
+    <label>Add watchers automatically</label>
+    <%= check_box_tag 'settings[add_watcher]', true, @settings[:add_watcher] %>
+  </p>
   <table class="list">
     <thead><tr>
     <th><%=l(:field_status)%></th>
