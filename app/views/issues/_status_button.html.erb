@@ -1,7 +1,10 @@
 <%
 	if StatusButton::Hooks.is_open?(@project)
 %>
-<tr><th class="status"><%= l(:field_status) + "-->" %></th><td class="status" colspan=3><%
+<div class="splitcontent">
+  <div class="cf_8 attribute">
+      <div class="label"><span><%= l(:field_status) + "-->" %></span></div>
+          <div class="value"><%
 # Returns an array of statuses that user is able to apply
 def all_new_statuses_allowed_to(issue)
 	user = User.current
@@ -34,8 +37,10 @@ for status in @issue.tracker.issue_statuses
 		%>[<%= link_to_if allowed_statuses.include?(status),
 						status.name, "javascript:make_status(#{status.id})" %>]&emsp;<%
 	end
-end
-%></td></tr>
+	end
+%></div>
+  </div>
+</div>
 <%= javascript_include_tag "status_button.js", :plugin => 'status_button' %>
 <%
 	end
