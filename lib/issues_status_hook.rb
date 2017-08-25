@@ -17,7 +17,7 @@ class IssueStatusHook < Redmine::Hook::ViewListener
 		setting[:status_assigned_to].each { |s, a|
 			unless a.blank?
 				f = issue.custom_field_values.find { |f| f.custom_field_id == Integer(a) }
-				status_to_user[Integer(s)] = Integer(f.value) if f && !f.value.empty?
+				status_to_user[Integer(s)] = Integer(f.value) if f && f.value && !f.value.empty?
 			end }
 		status_to_user
 		issue.assigned_to_id = status_to_user[issue.status_id] if status_to_user[issue.status_id]
