@@ -12,15 +12,15 @@ class IssueStatusHook < Redmine::Hook::ViewListener
 	
 	def update_issues(issue)
 		plugin = Redmine::Plugin.find(:status_button)
-		setting = Setting["plugin_#{plugin.id}"] || plugin.settings[:default]
+		setting = Setting["plugin_#{plugin.id}"] || plugin.settings['default']
 		status_to_user = {}
-		setting[:status_assigned_to].each { |s, a|
+		setting['status_assigned_to'].each { |s, a|
 			unless a.blank?
 				f = issue.custom_field_values.find { |f| f.custom_field_id == Integer(a) }
 				status_to_user[Integer(s)] = Integer(f.value) if f && f.value && !f.value.empty?
 			end }
 		status_to_user
 		issue.assigned_to_id = status_to_user[issue.status_id] if status_to_user[issue.status_id]
-		issue.watcher_user_ids = issue.watcher_user_ids | status_to_user.map{|s,u| u} if setting[:add_watcher]
+		issue.watcher_user_ids = issue.watcher_user_ids | status_to_user.map{|s,u| u} if setting['add_watcher']
 	end
 end

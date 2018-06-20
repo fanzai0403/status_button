@@ -1,15 +1,15 @@
 <%	memberFields = CustomField.all.select { |f| f.class.name == 'IssueCustomField' && f.field_format == 'user' }
 	options = memberFields.map{ |f| [f.name, f.id] }
-	@settings = {:status_assigned_to => {}} unless @settings[:status_assigned_to] %>
+	@settings = {:status_assigned_to => {}} unless settings['status_assigned_to'] %>
 <fieldset>
   <legend>Issues Status settings</legend>
   <p>
     <label>Check all reachable status</label>
-    <%= check_box_tag 'settings[check_all_status]', true, @settings[:check_all_status] %>
+    <%= check_box_tag 'settings[check_all_status]', true, settings['check_all_status'] %>
   </p>
   <p>
     <label>Add watchers automatically</label>
-    <%= check_box_tag 'settings[add_watcher]', true, @settings[:add_watcher] %>
+    <%= check_box_tag 'settings[add_watcher]', true, settings['add_watcher'] %>
   </p>
   <table class="list">
     <thead><tr>
@@ -22,7 +22,7 @@
       <td><%= h(status.name) %></td>
       <td align="center">
         <%= select_tag	"settings[status_assigned_to][#{status.id}]",
-						options_for_select(options, @settings[:status_assigned_to][status.id.to_s]),
+						options_for_select(options, settings['status_assigned_to'][status.id.to_s]),
 						:include_blank => true %>
 	  </td>
       </tr>
