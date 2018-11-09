@@ -1,6 +1,6 @@
 <%
 @settings = {:status_assigned_to => {}} unless settings['status_assigned_to']
-users = User.where(status: 1).sort_by(&:name).collect{|t| [t.name, t.id]}
+scope = Principal.active.joins(:members => :roles).where(:type => ['User', 'Group'], :roles => {:assignable => true}).distinct.sorted
  %>
 <fieldset>
   <legend>Issues Status settings</legend>
@@ -25,7 +25,7 @@ users = User.where(status: 1).sort_by(&:name).collect{|t| [t.name, t.id]}
           <td><%= h(status.name) %></td>
           <td align="center">
             <%= select_tag("settings[status_assigned_to][#{status.id}]",
-                           options_for_select(users, settings['status_assigned_to'][status.id.to_s]),
+                           principals_options_for_select(scope, settings['status_assigned_to'][status.id.to_s]),
                            :include_blank => true) %>
 
           </td>
