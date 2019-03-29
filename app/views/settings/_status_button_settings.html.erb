@@ -1,32 +1,36 @@
-<%	memberFields = CustomField.all.select { |f| f.class.name == 'IssueCustomField' && f.field_format == 'user' }
-	options = memberFields.map{ |f| [f.name, f.id] }
-	@settings = {:status_assigned_to => {}} unless @settings[:status_assigned_to] %>
+<%
+@settings = {:status_assigned_to => {}} unless settings['status_assigned_to']
+scope = Principal.active.joins(:members => :roles).where(:type => ['User', 'Group'], :roles => {:assignable => true}).distinct.sorted
+ %>
 <fieldset>
   <legend>Issues Status settings</legend>
   <p>
-    <label>Check all reachable status</label>
-    <%= check_box_tag 'settings[check_all_status]', true, @settings[:check_all_status] %>
+  <label>Check all reachable status</label>
+  <%= check_box_tag 'settings[check_all_status]', true, settings['check_all_status'] %>
   </p>
   <p>
-    <label>Add watchers automatically</label>
-    <%= check_box_tag 'settings[add_watcher]', true, @settings[:add_watcher] %>
+  <label>Add watchers automatically</label>
+  <%= check_box_tag 'settings[add_watcher]', true, settings['add_watcher'] %>
   </p>
   <table class="list">
-    <thead><tr>
-    <th><%=l(:field_status)%></th>
-    <th><%=l(:field_assigned_to)%></th>
-    </tr></thead>
-    <tbody>
-    <% for status in IssueStatus.all() %>
-      <tr class="<%= cycle("odd", "even") %>" align="center">
-      <td><%= h(status.name) %></td>
-      <td align="center">
-        <%= select_tag	"settings[status_assigned_to][#{status.id}]",
-						options_for_select(options, @settings[:status_assigned_to][status.id.to_s]),
-						:include_blank => true %>
-	  </td>
+    <thead>
+      <tr>
+        <th><%=l(:field_status)%></th>
+        <th><%=l(:field_assigned_to)%></th>
       </tr>
-    <% end %>
+    </thead>
+    <tbody>
+      <% for status in IssueStatus.all() %>
+        <tr class="<%= cycle("odd", "even") %>" align="center">
+          <td><%= h(status.name) %></td>
+          <td align="center">
+            <%= select_tag("settings[status_assigned_to][#{status.id}]",
+                           principals_options_for_select(scope, settings['status_assigned_to'][status.id.to_s]),
+                           :include_blank => true) %>
+
+          </td>
+        </tr>
+      <% end %>
     </tbody>
   </table>
 </fieldset>
